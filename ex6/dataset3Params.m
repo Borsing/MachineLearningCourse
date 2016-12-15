@@ -23,11 +23,28 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+Cpos = [0.01 0.03 0.1 0.3 1 3 10 30]' ;
+sigmapos =  Cpos ;
 
+min_error =  Inf ;
+%total = mat2str(length(Cpos) * length(sigmapos)) ;
 
-
-
-
+for i = 1:length(Cpos)
+  for j = 1:length(sigmapos)
+     %disp(strcat(mat2str((i-1)*length(Cpos)+j),"/" ,total)); 
+     C_test = Cpos(i) ;
+     sigma_test = sigmapos(j) ;
+     model = svmTrain(X, y, C_test, @(x1, x2) gaussianKernel(x1, x2, sigma_test)) ;
+     predictions = svmPredict(model, Xval);
+     current_error = mean(double(predictions ~= yval)) ;
+     
+     if min_error > current_error
+        min_error = current_error ;
+        C = C_test ;
+        sigma = sigma_test ;
+     endif 
+  endfor
+endfor
 
 % =========================================================================
 
