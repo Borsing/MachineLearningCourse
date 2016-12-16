@@ -26,9 +26,11 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
-
-
+for i = 1:K
+  if(sum(idx == i) > 0) %security if a centroids have 0 X associated
+    centroids(i,:) = mean(X((idx == i), :)) ;
+  endif
+endfor
 
 
 

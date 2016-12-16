@@ -21,11 +21,16 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+%calculate the distance between X and each centroid
+distance = [] ;
 
+for i = 1:K
+  distance = [distance, sum(((X .- centroids(i,:)) .** 2 )')'] ;
+endfor 
 
-
-
-
+%find the min between all distance for each X and set the idx correspond to the centroid
+[a,v] = min(distance') ;
+idx = v' ;
 
 % =============================================================
 
